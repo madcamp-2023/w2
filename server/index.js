@@ -1,11 +1,29 @@
-const express = require('express')
-const app = express()
-const port = 443
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+dotenv.config();
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+const generateToken = (member) => {
+  return new Promise((resolve, reject) => {
+    jwt.sign(
+      {
+        id: member.id,
+        user_id: member.user_id,
+        nickname: member.nickname,
+      },
+      process.env.SECRET,
+      {
+        expiresIn: '1d', //유효기간
+      },
+      (err, token) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(token);
+        }
+      }
+    );
+  });
+};
+
+export { generateToken };

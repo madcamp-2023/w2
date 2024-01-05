@@ -1,7 +1,7 @@
 const fs = require("fs");
-const data = fs.readFileSync("./database.json");
+const data = fs.readFileSync("/home/jeongmin/w2/server/config/database.json");
 const conf = JSON.parse(data);
-const password_data = fs.readFileSync("./password.json");
+const password_data = fs.readFileSync("/home/jeongmin/w2/server/config/password.json");
 const password = JSON.parse(password_data);
 const mysql = require("mysql");
 
@@ -11,6 +11,7 @@ const connection = mysql.createConnection({
   password: password.password,
   port: conf.port,
   database: conf.database,
+  socketPath: '/var/run/mysqld/mysqld.sock'
 });
 
 connection.connect((err) => {
