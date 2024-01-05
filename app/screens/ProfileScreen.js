@@ -1,9 +1,5 @@
-import { useState } from "react";
 import { Alert, Button, Image, StyleSheet, Text, View } from "react-native";
-
-import AntDesign from "react-native-vector-icons/AntDesign";
-
-import LabelInput from "../components/LabelInput";
+import PostItem from "../components/PostItem";
 
 export default function ProfileScreen() {
   return (
@@ -22,7 +18,15 @@ export default function ProfileScreen() {
           <Text style={styles.text}>내가 올린 글</Text>
           <Text style={styles.text}>내가 좋아하는 글</Text>
         </View>
-        <View style={styles.post__main}></View>
+        <View style={styles.post__main}>
+          <PostItem
+            title="title"
+            content="content"
+            price="price"
+            location="location"
+            timestamp="timestamp"
+          />
+        </View>
       </View>
     </View>
   );
@@ -53,9 +57,15 @@ const styles = StyleSheet.create({
   },
 
   post__header: {
-    flex: 1,
     flexDirection: "row",
-    borderBlockColor: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "black",
+    marginBottom: 10,
+  },
+
+  post__main: {
+    flex: 1,
+    flexDirection: "column",
   },
 
   text: {
