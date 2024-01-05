@@ -1,0 +1,6 @@
+{
+  "host": "172.10.8.247",
+  "user": "week2",
+  "port": "3306",
+  "database": "booler"
+}
