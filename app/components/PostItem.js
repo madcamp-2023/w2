@@ -10,7 +10,7 @@ const PostItem = ({ title, content, price, location, timestamp }) => {
         style={styles.postImage}
       />
       <View style={styles.postContent}>
-        <View>
+        <View style>
           <Text style={styles.postTitle}>{title}</Text>
           <Text style={styles.postContent}>{content}</Text>
           <Text style={styles.postPrice}>{price}</Text>
