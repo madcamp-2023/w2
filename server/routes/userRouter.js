@@ -5,8 +5,8 @@ const userCtrl = require("../controllers/userCtrl");
 const router = express.Router();
 const PORT = 3000;
 
-const REST_API_KEY = "19f2b58bfe96f4d595bcd0d00819f21b";
-const REDIRECT_URI = "http://143.248.196.188:8000/auth/kakao/callback";
+const REST_API_KEY = "406d35070a2f8f7ca0e51a1e894ffdc6";
+const REDIRECT_URI = "http://127.0.0.1:8081/auth/kakao/callback";
 
 // JSON 요청을 처리하기 위한 미들웨어
 app.use(express.json());
@@ -19,8 +19,8 @@ router.route("/test").get(async (req, res) => {
 
 // 카카오 사용자 정보 요청 라우트
 router.route("/login").post(async (req, res) => {
-  console.log(req.body)
-  console.log("???", req.body.AUTHORIZE_CODE)
+  console.log(req.body);
+  console.log("???", req.body.AUTHORIZE_CODE);
   const AUTHORIZE_CODE = req.body.AUTHORIZE_CODE; // 프론트엔드에서 전달받은 access token
 
   // Exchange the authorization code for an access token
@@ -41,16 +41,22 @@ router.route("/login").post(async (req, res) => {
 
   const { access_token } = response.data;
 
-  const userRequest = await (
-    await fetch("https://kapi.kakao.com/v2/user/me", {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        "Content-type": "application/json",
-      },
-    })
-  ).json();
+  const userRequest = await axios.get("https://kapi.kakao.com/v2/user/me", {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+      "Content-type": "application/json",
+    },
+  });
+  
+  const userData = userRequest.data;
 
-  const user = userCtrl.findOrCreateUser(userRequest.id, userRequest.properties.nickname, userRequest.properties.profile_image);
+  // res.send(userData)
+
+  const user = await userCtrl.findOrCreateUser(
+    userData.id,
+    userData.properties.nickname,
+    userData.properties.profile_image
+  );
   res.send(user);
 });
 

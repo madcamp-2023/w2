@@ -33,6 +33,7 @@ const usrtCtrl= {
 
         // 이미 존재하는 경우, 해당 row 반환
         if (results.length == 1) {
+          console.log(results)
           return resolve(results[0]);
         }
         // 해당하는 user가 2명 이상인 경우 오류 반환
@@ -46,6 +47,8 @@ const usrtCtrl= {
             if (err) {
               return reject(err);
             }
+            console.log(insertResult)
+            console.log("에라이")
 
             // 새로 추가된 사용자 정보 반환
             connection.query('SELECT * FROM user WHERE id = ?', [insertResult[0].id], (err, newUserResult) => {
