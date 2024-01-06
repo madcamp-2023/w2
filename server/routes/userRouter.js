@@ -6,19 +6,19 @@ const router = express.Router();
 const PORT = 3000;
 
 const REST_API_KEY = "19f2b58bfe96f4d595bcd0d00819f21b";
-const REDIRECT_URI = "http://127.0.0.1:8000/auth/kakao/callback";
+const REDIRECT_URI = "http://143.248.196.188:8000/auth/kakao/callback";
 
 // JSON 요청을 처리하기 위한 미들웨어
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // URL-encoded 본문을 위한 파서
 
-router.get("/test", async (req, res) => {
+router.route("/test").get(async (req, res) => {
   const messeaage = await userCtrl.testUser("test", "test", "test");
   res.send(messeaage);
 });
 
 // 카카오 사용자 정보 요청 라우트
-router.post("/login", async (req, res) => {
+router.route("/login").post(async (req, res) => {
   console.log(req.body)
   console.log("???", req.body.AUTHORIZE_CODE)
   const AUTHORIZE_CODE = req.body.AUTHORIZE_CODE; // 프론트엔드에서 전달받은 access token
