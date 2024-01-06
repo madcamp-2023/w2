@@ -1,9 +1,9 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const userCtrl = require("../controllers/userCtrl");
+// const userCtrl = require("../controllers/userCtrl");
 const router = express.Router();
-const PORT = 3000;
+const PORT = 3001;
 
 const REST_API_KEY = "406d35070a2f8f7ca0e51a1e894ffdc6";
 const REDIRECT_URI = "http://127.0.0.1:8081/auth/kakao/callback";
@@ -50,10 +50,9 @@ router.post("/login", async (req, res) => {
     })
   ).json();
 
-  const user = userCtrl.findOrCreateUser(userRequest.id, userRequest.properties.nickname, userRequest.properties.profile_image);
-  res.send(user);
+	console.log(userRequest)
+  // const user = userCtrl.findOrCreateUser(userRequest.id, userRequest.properties.nickname, userRequest.properties.profile_image);
+ //  res.send(user);
 });
-
-router.
 
 module.exports = router;
