@@ -1,10 +1,16 @@
 import { useState } from "react";
-import { Alert } from "react-native";
+import { Alert, Button, Image, StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const ProfileEdit = ({ navigation }) => {
+import AntDesign from "react-native-vector-icons/AntDesign";
+import LabelInput from "./LabelInput";
+
+const ProfileEdit = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
+
+  const navigation = useNavigation();
 
   const handleSubmit = () => {
     //TODO: POST
@@ -17,7 +23,7 @@ const ProfileEdit = ({ navigation }) => {
         <AntDesign
           name="back"
           size={30}
-          onPress={() => navigation.navigate("Chat")}
+          onPress={() => navigation.navigate("ProfileHome")}
         />
       </View>
       <View style={styles.content}>
@@ -51,8 +57,6 @@ const ProfileEdit = ({ navigation }) => {
   );
 };
 
-export default ProfileEdit;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -77,3 +81,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
+export default ProfileEdit;

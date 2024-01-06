@@ -1,10 +1,18 @@
-import { Alert, Button, Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import PostItem from "../components/PostItem";
 
+import { useNavigation } from "@react-navigation/native";
+
 export default function ProfileScreen() {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate("ProfileEdit");
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.profile}>
+      <TouchableOpacity style={styles.profile} onPress={handlePress}>
         <Text style={{ marginRight: 20 }}>이름</Text>
         <Image
           source={{
@@ -12,7 +20,7 @@ export default function ProfileScreen() {
           }}
           style={styles.image}
         />
-      </View>
+      </TouchableOpacity>
       <View style={styles.post}>
         <View style={styles.post__header}>
           <Text style={styles.text}>내가 올린 글</Text>
@@ -60,7 +68,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     borderBottomColor: "black",
-    marginBottom: 10,
   },
 
   post__main: {

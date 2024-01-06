@@ -8,13 +8,33 @@ import Fontisto from "react-native-vector-icons/Fontisto";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import PostScreen from "./screens/PostScreen";
 import ChatScreen from "./screens/ChatScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import LoginScreen from "./screens/LoginScreen";
+import ProfileEdit from "./components/ProfileEdit";
+import PostDetail from "./components/PostDetail";
 
 const Tab = createBottomTabNavigator();
+
+const Stack = createNativeStackNavigator();
+
+function ProfileStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        tabBarShowLabel: false,
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="ProfileHome" component={ProfileScreen} />
+      <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
+      <Stack.Screen name="MyPostDetail" component={PostDetail} />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -58,7 +78,7 @@ export default function App() {
             />
             <Tab.Screen
               name="Profile"
-              component={ProfileScreen}
+              component={ProfileStack}
               options={{
                 tabBarIcon: ({ focused, color, size }) => (
                   <Fontisto name="person" size={size} color={color} />

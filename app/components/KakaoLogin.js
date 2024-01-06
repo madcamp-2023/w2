@@ -16,8 +16,6 @@ export default function KakaoLogin({ onLoginSuccess }) {
       const AUTHORIZE_CODE = match[1];
       onLoginSuccess(AUTHORIZE_CODE);
 
-      axios.post("https://kauth.kakao.com/oauth/token");
-
       axios
         .post("http://143.248.229.183:3000/user/kakao", {
           AUTHORIZE_CODE: AUTHORIZE_CODE,

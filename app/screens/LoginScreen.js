@@ -8,7 +8,7 @@ export default function LoginScreen({ handleIsLoggedIn }) {
 
   const handleLoginSuccess = (code) => {
     setLoginModalVisible(false);
-    // handleIsLoggedIn(true);
+    handleIsLoggedIn(true);
     console.log(code);
   };
 
