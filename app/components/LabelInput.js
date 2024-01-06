@@ -20,10 +20,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     margin: 10,
   },
   label: {
-    marginRight: 10,
+    flexBasis: 60,
   },
   input: {
     flex: 1,

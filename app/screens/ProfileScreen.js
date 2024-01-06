@@ -2,9 +2,13 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import PostItem from "../components/PostItem";
 
 import { useNavigation } from "@react-navigation/native";
+import { useRecoilValue } from "recoil";
+import { userState } from "../recoil/recoil";
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
+
+  const user = useRecoilValue(userState);
 
   const handlePress = () => {
     navigation.navigate("ProfileEdit");
@@ -13,10 +17,10 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.profile} onPress={handlePress}>
-        <Text style={{ marginRight: 20 }}>이름</Text>
+        <Text style={{ marginRight: 20 }}>{user.name}</Text>
         <Image
           source={{
-            uri: "https://github.com/haejunejung/haejunejung.github.io/assets/99087502/d2817771-d076-4012-af8d-b2bd9330eea7",
+            uri: user.image,
           }}
           style={styles.image}
         />
