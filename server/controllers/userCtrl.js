@@ -60,6 +60,7 @@ const usrtCtrl= {
       });
     });
   },
+  // user의 id를 집어넣으면 user 정보를 반환
   findUser: async (id) => {
     return new Promise((resolve, reject) => {
       const query = 'SELECT * FROM user WHERE id = ?';
@@ -69,6 +70,38 @@ const usrtCtrl= {
           return reject(err);
         }
         resolve(results[0]);
+      });
+    });
+  },
+  // user의 id와 바꿀 정보를 입력하면 해당 user의 정보를 업데이트
+  updateUserById: async (id, updatedFields) => {
+    return new Promise((resolve, reject) => {
+      // 먼저 id가 존재하는지 확인
+      connection.query('SELECT * FROM user WHERE id = ?', [id], (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+  
+        // 해당 id를 가진 사용자가 존재하지 않는 경우
+        if (results.length === 0) {
+          return reject('User not found');
+        }
+  
+        // 사용자 정보 업데이트
+        connection.query('UPDATE user SET ? WHERE id = ?', [updatedFields, id], (err, updateResult) => {
+          if (err) {
+            return reject(err);
+          }
+  
+          // 업데이트된 사용자 정보 반환
+          connection.query('SELECT * FROM user WHERE id = ?', [id], (err, updatedUserResult) => {
+            if (err) {
+              return reject(err);
+            }
+  
+            resolve(updatedUserResult[0]);
+          });
+        });
       });
     });
   },

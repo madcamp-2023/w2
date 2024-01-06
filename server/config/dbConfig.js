@@ -1,7 +1,7 @@
 const fs = require("fs");
-const data = fs.readFileSync("/home/jeongmin/w2/server/config/database.json");
+const data = fs.readFileSync("./config/database.json");
 const conf = JSON.parse(data);
-const password_data = fs.readFileSync("/home/jeongmin/w2/server/config/password.json");
+const password_data = fs.readFileSync("./config/password.json");
 const password = JSON.parse(password_data);
 const mysql = require("mysql");
 
