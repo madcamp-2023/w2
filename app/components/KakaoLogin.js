@@ -7,6 +7,14 @@ const REDIRECT_URI = "http://127.0.0.1:8081/auth/kakao/callback";
 const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`;
 
 export default function KakaoLogin({ onLoginSuccess }) {
+
+  axios.get("http://143.248.196.188:3000/user/test").then((response) => {
+    // Handle response from your backend
+    console.log(response.data);
+  }).catch((error) => {
+      // Handle any errors from your backend
+      console.error("Error posting to backend:", error);
+  });
   const getCode = (url) => {
     console.log(url);
 
@@ -17,7 +25,7 @@ export default function KakaoLogin({ onLoginSuccess }) {
       onLoginSuccess(AUTHORIZE_CODE);
 
       axios
-        .post("http://143.248.229.183:3000/user/login", {
+        .post("http://143.248.196.188:3000/user/login", {
           AUTHORIZE_CODE: AUTHORIZE_CODE,
         })
         .then((response) => {
