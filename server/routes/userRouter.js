@@ -5,8 +5,8 @@ const userCtrl = require("../controllers/userCtrl");
 const router = express.Router();
 const PORT = 3000;
 
-const REST_API_KEY = "406d35070a2f8f7ca0e51a1e894ffdc6";
-const REDIRECT_URI = "http://127.0.0.1:8081/auth/kakao/callback";
+const REST_API_KEY = "19f2b58bfe96f4d595bcd0d00819f21b";
+const REDIRECT_URI = "http://127.0.0.1:8000/auth/kakao/callback";
 
 // JSON 요청을 처리하기 위한 미들웨어
 app.use(express.json());
@@ -20,6 +20,7 @@ router.get("/test", async (req, res) => {
 // 카카오 사용자 정보 요청 라우트
 router.post("/login", async (req, res) => {
   console.log(req.body)
+  console.log("???", req.body.AUTHORIZE_CODE)
   const AUTHORIZE_CODE = req.body.AUTHORIZE_CODE; // 프론트엔드에서 전달받은 access token
 
   // Exchange the authorization code for an access token

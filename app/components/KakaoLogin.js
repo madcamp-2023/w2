@@ -2,8 +2,8 @@ import { View } from "react-native";
 import { WebView } from "react-native-webview";
 import axios from "axios";
 
-const REST_API_KEY = "406d35070a2f8f7ca0e51a1e894ffdc6";
-const REDIRECT_URI = "http://127.0.0.1:8081/auth/kakao/callback";
+const REST_API_KEY = "19f2b58bfe96f4d595bcd0d00819f21b";
+const REDIRECT_URI = "http://127.0.0.1:8000/auth/kakao/callback";
 const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`;
 
 export default function KakaoLogin({ onLoginSuccess }) {

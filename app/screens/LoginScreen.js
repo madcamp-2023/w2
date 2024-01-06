@@ -8,7 +8,7 @@ export default function LoginScreen({ handleIsLoggedIn }) {
 
   const handleLoginSuccess = (code) => {
     setLoginModalVisible(false);
-    handleIsLoggedIn(true);
+    // handleIsLoggedIn(true);
     console.log(code);
   };
 
@@ -21,7 +21,7 @@ export default function LoginScreen({ handleIsLoggedIn }) {
         style={styles.image}
       />
 
-      <Button title="Kakao Login" onPress={() => setLoginModalVisible(true)} />
+      <Button title='Kakao Login' onPress={() => setLoginModalVisible(true)} />
       <Modal visible={isLoginModalVisible}>
         <KakaoLogin onLoginSuccess={handleLoginSuccess} />
       </Modal>
