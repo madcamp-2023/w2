@@ -17,7 +17,7 @@ export default function KakaoLogin({ onLoginSuccess }) {
       onLoginSuccess(AUTHORIZE_CODE);
 
       axios
-        .post("http://143.248.229.183:3000/user/kakao", {
+        .post("http://143.248.229.183:3000/user/login", {
           AUTHORIZE_CODE: AUTHORIZE_CODE,
         })
         .then((response) => {
