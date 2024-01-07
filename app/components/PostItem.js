@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const PostItem = ({ title, content, price, location, timestamp, onPress }) => {
+const PostItem = ({ title, content, price, location, timestamp }) => {
   const navigation = useNavigation();
 
   return (

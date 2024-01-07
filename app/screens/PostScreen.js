@@ -1,26 +1,23 @@
 import { StyleSheet, Text, View } from "react-native";
-import PostItem from "../components/PostItem";
 
 import { useNavigation } from "@react-navigation/native";
 import AntDesgin from "react-native-vector-icons/AntDesign";
 
+import PostList from "../components/PostList";
+import { useState } from "react";
+import PostMap from "../components/PostMap";
+import Dropdown from "../components/Dropdown";
+
 export default function PostScreen() {
   const navigation = useNavigation();
-
-  const handlePress = () => {
-    navigation.navigate("ProfileEdit");
-  };
+  const [nav, setNav] = useState("Feed");
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.header__location}>
           <Text style={styles.header__location__text}>어은동</Text>
-          <AntDesgin
-            name="down"
-            size={30}
-            style={styles.header__location__select}
-          />
+          <Dropdown />
         </View>
         <View>
           <AntDesgin
@@ -32,18 +29,17 @@ export default function PostScreen() {
       </View>
       <View style={styles.post}>
         <View style={styles.post__header}>
-          <Text style={styles.text}>피드로 보기</Text>
-          <Text style={styles.text}>지도로 보기</Text>
-          <Text style={styles.text}>가격 높은 순</Text>
+          <Text style={styles.text} onPress={() => setNav("Feed")}>
+            피드로 보기
+          </Text>
+          <Text style={styles.text} onPress={() => setNav("Map")}>
+            지도로 보기
+          </Text>
+
+          <Dropdown />
         </View>
         <View style={styles.post__main}>
-          <PostItem
-            title="title"
-            content="content"
-            price="price"
-            location="location"
-            timestamp="timestamp"
-          />
+          {nav === "Feed" ? <PostList /> : <PostMap />}
         </View>
       </View>
     </View>
@@ -57,6 +53,9 @@ const styles = StyleSheet.create({
 
   header: {
     flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginTop: 30,
   },
 
   header__location: {
@@ -66,19 +65,10 @@ const styles = StyleSheet.create({
 
   header__location__text: {
     marginRight: 10,
-    backgroundColor: "#FFF",
   },
 
   header__location__select: {
     marginLeft: 10,
-    backgroundColor: "#fff",
-  },
-
-  profile: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    marginTop: 30,
   },
 
   image: {
@@ -97,6 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     borderBottomColor: "black",
+    zIndex: 1,
   },
 
   post__main: {
@@ -106,5 +97,12 @@ const styles = StyleSheet.create({
 
   text: {
     padding: 10,
+  },
+
+  dropdownContainer: {
+    width: 100,
+    height: 40,
+    zIndex: 1000,
+    elevation: 1000,
   },
 });

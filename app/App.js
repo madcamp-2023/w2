@@ -19,7 +19,7 @@ import ProfileEdit from "./components/ProfileEdit";
 import PostDetail from "./components/PostDetail";
 
 import { RecoilRoot } from "recoil";
-import MyMapComponent from "./components/MyMapComponent";
+import PostMap from "./components/PostMap";
 
 const Tab = createBottomTabNavigator();
 
@@ -36,6 +36,20 @@ function ProfileStack() {
       <Stack.Screen name="ProfileHome" component={ProfileScreen} />
       <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
       <Stack.Screen name="MyPostDetail" component={PostDetail} />
+    </Stack.Navigator>
+  );
+}
+
+function PostStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        tabBarShowLabel: false,
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="PostHome" component={PostScreen} />
+      <Stack.Screen name="PostMap" component={PostMap} />
     </Stack.Navigator>
   );
 }
