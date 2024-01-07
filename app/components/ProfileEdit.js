@@ -66,7 +66,7 @@ const ProfileEdit = () => {
     Alert.alert("프로필 업데이트!");
 
     axios
-      .patch(URI + "/user/edit", {
+      .patch(URI + "/user", {
         id: user.id,
         bio: bio,
         image: imageUrl,
