@@ -19,7 +19,7 @@ import ProfileEdit from "./components/ProfileEdit";
 import PostDetail from "./components/PostDetail";
 
 import { RecoilRoot } from "recoil";
-import PostMap from "./components/PostMap";
+import PostCreate from "./components/PostCreate";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +49,7 @@ function PostStack() {
       }}
     >
       <Stack.Screen name="PostHome" component={PostScreen} />
-      <Stack.Screen name="PostMap" component={PostMap} />
+      <Stack.Screen name="PostCreate" component={PostCreate} />
     </Stack.Navigator>
   );
 }
@@ -88,7 +88,7 @@ export default function App() {
             >
               <Tab.Screen
                 name="Post"
-                component={PostScreen}
+                component={PostStack}
                 options={{
                   tabBarIcon: ({ focused, color, size }) => (
                     <MaterialCommunityIcons
