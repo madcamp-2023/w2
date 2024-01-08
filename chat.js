@@ -1,7 +1,7 @@
 // chat.js
 const chatCtrl = require("./controllers/chatCtrl");
 const chatRoomCtrl = require("./controllers/chatRoomCtrl");
-
+// :)
 /*
 프론트에서 채팅하기 버튼 누르면 방 생성(DB)하고 socket.connect(), 방 id로 join room
 메세지 보내면 chat message 이벤트 발생, io.to(room_id).emit("chat message", msg)로 메세지 전송.
