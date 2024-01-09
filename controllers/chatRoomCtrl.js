@@ -47,7 +47,7 @@ const chatRoomCtrl = {
       }
     );
   },
-  lastChatUpdate: (room_id, last_chat, last_chat_time) => {
+  updateLastChat: (room_id, last_chat, last_chat_time) => {
     const query =
       "UPDATE chat_room SET last_chat = ? AND last_chat_time=? WHERE room_id = ?";
     connection.query(

@@ -11,6 +11,17 @@ const mapCtrl = {
       res.send(results);
     });
   },
+  findLatitudeLongitude: async (name) => {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM map WHERE name = ?";
+      connection.query(query, [name], (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(results[0]);
+      });
+    });
+  }
 };
 
 module.exports = mapCtrl;

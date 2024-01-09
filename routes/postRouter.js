@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const postCtrl = require("../controllers/postCtrl");
+const mapCtrl = require("../controllers/mapCtrl");
 const router = express.Router();
 
 // JSON 요청을 처리하기 위한 미들웨어
@@ -47,6 +48,14 @@ router.route("/create").post(async (req, res) => {
   const user_name = req.body.user_name;
   const user_image = req.body.user_image;
   const due = req.body.due;
+  const zip_location = location;
+
+  const unzip_location = zip_location.split(/[\(\)]/);
+  const map_name = unzip_location[0];
+  const label = unzip_location[1].replace(/\d+/g, '');
+  const latitudeLongitude = await mapCtrl.findLatitudeLongitude(map_name);
+  const latitude = latitudeLongitude.latitude;
+  const longitude = latitudeLongitude.longitude;
 
   const post = await postCtrl.createPost(
     {
@@ -59,6 +68,9 @@ router.route("/create").post(async (req, res) => {
       user_name: user_name,
       user_image: user_image,
       due: due,
+      latitude: latitude,
+      longitude: longitude,
+      label:label
     }
   );
   res.send(post);

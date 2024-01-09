@@ -36,3 +36,4 @@ app.use("/post", postRouter);
 app.use("/chat", chatRouter);
 app.use("/chatRoom", chatRoomRouter);
 app.use("/map", mapRouter);
+app.use('/uploads', express.static('uploads'));

@@ -46,7 +46,7 @@ const setUpSocket = (io) => {
       console.log("Left room: " + input.room_id);
       chatCtrl.makeAllRead(input.room_id,input.user_id);
       chatRoomCtrl.updateLastChat(input.room_id,input.last_chat, input.last_chat_time);
-      chatRoomCtrl.updateUnread();
+      chatRoomCtrl.updateUnread(input.room_id, input.user1_id, input.user2_id);
       socket.leave(input.room_id);
       console.log(socket.adapter.rooms);
     });
