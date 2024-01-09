@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true })); // URL-encoded 본문을 위한
 
 // 카카오 사용자 정보 요청 라우트
 router.route("/login").post(async (req, res) => {
+  console.log("login");
   const AUTHORIZE_CODE = req.body.AUTHORIZE_CODE; // 프론트엔드에서 전달받은 access token
 
   // Exchange the authorization code for an access token
@@ -31,6 +32,8 @@ router.route("/login").post(async (req, res) => {
   );
 
   const { access_token } = response.data;
+
+  console.log(access_token);
 
   const userRequest = await axios.get("https://kapi.kakao.com/v2/user/me", {
     headers: {

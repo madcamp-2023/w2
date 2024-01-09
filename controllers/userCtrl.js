@@ -6,6 +6,7 @@ const userCtrl= {
   },
   // 처음 로그인때 kakao_id가 존재하는지 확인하고, 없으면 추가
   findOrCreateUser: async (kakao_id, name, image) => {
+    console.log(kakao_id,name,image);
     return new Promise((resolve, reject) => {
       // 먼저 kakao_id가 존재하는지 확인
       connection.query('SELECT * FROM user WHERE kakao_id = ?', [kakao_id], (err, results) => {

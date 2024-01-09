@@ -9,7 +9,6 @@ app.use(express.urlencoded({ extended: true })); // URL-encoded 본문을 위한
 
 router.route("/").get(postCtrl.showEveryPost);
 
-
 router.route("/").patch(async (req, res) => {
   const id = req.body.id;
   const newImage = req.body.image;

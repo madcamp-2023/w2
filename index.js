@@ -15,6 +15,7 @@ const userRouter = require("./routes/userRouter");
 const postRouter = require("./routes/postRouter");
 const chatRouter = require("./routes/chatRouter");
 const chatRoomRouter = require("./routes/chatRoomRouter");
+const mapRouter = require("./routes/mapRouter");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // URL-encoded 본문을 위한 파서
@@ -34,3 +35,4 @@ app.use("/user", userRouter);
 app.use("/post", postRouter);
 app.use("/chat", chatRouter);
 app.use("/chatRoom", chatRoomRouter);
+app.use("/map", mapRouter);

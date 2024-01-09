@@ -11,37 +11,44 @@ chat message 이벤트 받으면 DB에 저장하고 프론트에 전송.
 
 const setUpSocket = (io) => {
   io.on("connection", (socket) => {
-    console.log("socket entered: "+socket.id);
-    console.log("A user connected");
+    console.log("socket entered: " + socket.id);
+    console.log("A user connected\n");
 
     io.on("disconnect", (input) => {
-      console.log(input.room_id)
-      console.log("User disconnected");
+      console.log(input.room_id);
+      console.log("User disconnected\n");
     });
 
-    socket.on("join room", (input) =>{
-      console.log("Joined room: "+input.room_id);
+    // 채팅방 id로 join room
+    socket.on("join room", (input) => {
+      console.log("Joined room: " + input.room_id+"\n");
       socket.join(input.room_id);
-      console.log(socket.adapter.rooms)
-    })
-
-    // 나갈 때 DB에 있는 거 다 읽음 처리
-    socket.on("leave room", (input) =>{
-      console.log("Left room: "+input.room_id);
-      socket.leave(input.room_id);
-      console.log(socket.adapter.rooms)
-    })
+      console.log(socket.adapter.rooms);
+    });
 
     // 메세지 보내면 DB에 저장하고 프론트에 전송
     socket.on("send chat", (input) => {
       console.log("send chat");
-      console.log("room_id: " + input.room_id+ " msg: "+input.msg);
-      socket.to(input.room_id).emit("receive chat ", input.msg);
+      console.log("user_id: " + input.user_id + " msg: " + input.message+"\n");
+      const req = {
+          room_id: input.room_id,
+          user_id: input.user_id,
+          message: input.message,
+        }
+      chatCtrl.saveChat(req);
+      console.log("receive chat");
+      console.log(input.message);
+      socket.to(input.room_id).emit("receive chat", input.message);
     });
 
-    socket.on("receive chat ", (input) => {
-      console.log("receive chat ");
-      console.log("room_id: " + input.room_id+ " msg: "+input.msg);
+    // 나갈 때 DB에 있는 거 다 읽음 처리
+    socket.on("leave room", (input) => {
+      console.log("Left room: " + input.room_id);
+      chatCtrl.makeAllRead(input.room_id,input.user_id);
+      chatRoomCtrl.updateLastChat(input.room_id,input.last_chat, input.last_chat_time);
+      chatRoomCtrl.updateUnread();
+      socket.leave(input.room_id);
+      console.log(socket.adapter.rooms);
     });
   });
 };
