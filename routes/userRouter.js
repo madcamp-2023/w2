@@ -104,21 +104,24 @@ router.route("/").patch(async (req, res) => {
   const buffer = Buffer.from(base64Data, "base64");
 
   console.log(buffer);
+  console.log("???");
 
   const filePath = `./uploads/profile/profile${id}.jpeg`; // 저장할 파일 경로
 
   // 이미지 파일 저장
   fs.writeFile(filePath, buffer, async (err) => {
+    console.log("write");
     if (err) {
       return res.status(500).send("Error saving the image");
     }
 
     // 파일을 Base64 문자열로 인코딩
     fs.readFile(filePath, { encoding: "base64" }, async (err, base64Image) => {
+      console.log("read");
       if (err) {
         return res.status(500).send("Error reading the image file");
       }
-      console.log(base64Image)
+      console.log(base64Image);
       // 데이터베이스에 Base64 문자열 저장
       const user = await userCtrl.editUserById(id, {
         name: newName,
