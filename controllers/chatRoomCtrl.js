@@ -17,10 +17,18 @@ const chatRoomCtrl = {
     const user1_id = req.body.user1_id;
     const user2_id = req.body.user2_id;
     const post_id = req.body.post_id;
-    const query = "INSERT INTO chat_room SET ?";
+    const query = `
+    INSERT INTO chat_room
+    SET 
+    user1_name = (SELECT name FROM user WHERE id = ${user1_id}),
+    user1_image = (SELECT image FROM user WHERE id = ${user1_id}),
+    user2_name = (SELECT name FROM user WHERE id = ${user2_id}),
+    user2_image = (SELECT image FROM user WHERE id = ${user2_id});
+    `;
+
+
     connection.query(
       query,
-      { user1_id: user1_id, user2_id: user2_id },
       (err, results) => {
         if (err) {
           return res.send(err);
@@ -48,20 +56,17 @@ const chatRoomCtrl = {
     );
   },
   updateLastChat: (room_id) => {
-    const query =`
+    const query = `
     UPDATE chat_room 
     SET last_chat = (SELECT message FROM chat WHERE room_id = ${room_id} ORDER BY id DESC LIMIT 1),
         last_chat_time = (SELECT created_time FROM chat WHERE room_id = ${room_id} ORDER BY id DESC LIMIT 1)
     WHERE id = ${room_id};
-    `
-    connection.query(
-      query,
-      (err, results) => {
-        if (err) {
-          return res.send(err);
-        }
+    `;
+    connection.query(query, (err, results) => {
+      if (err) {
+        return res.send(err);
       }
-    );
+    });
   },
   updateUnread: (room_id, user1_id, user2_id) => {
     // user1이 안 읽은 채팅의 개수는 user1_unread에 저장

@@ -55,14 +55,13 @@ router.route("/create").post(async (req, res) => {
   const latitude = latitudeLongitude.latitude;
   const longitude = latitudeLongitude.longitude;
 
-  
   // 'data:image/jpeg;base64,' 부분을 제거
   const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
   const buffer = Buffer.from(base64Data, "base64");
 
   console.log(buffer);
 
-  const filePath = `./uploads/post/${user_id}${Date.now()}.jpeg`
+  const filePath = `./uploads/post/post${user_id}.jpeg`;
 
   // 이미지 파일 저장
   fs.writeFile(filePath, buffer, async (err) => {
