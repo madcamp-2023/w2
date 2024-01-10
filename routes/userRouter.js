@@ -118,7 +118,7 @@ router.route("/").patch(async (req, res) => {
       if (err) {
         return res.status(500).send("Error reading the image file");
       }
-
+      console.log(base64Image)
       // 데이터베이스에 Base64 문자열 저장
       const user = await userCtrl.editUserById(id, {
         name: newName,
