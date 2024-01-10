@@ -4,7 +4,6 @@ const postCtrl = require("../controllers/postCtrl");
 const mapCtrl = require("../controllers/mapCtrl");
 const router = express.Router();
 const fs = require("fs");
-const { randomUUID } = require('crypto');
 
 // JSON 요청을 처리하기 위한 미들웨어
 app.use(express.json());
@@ -63,7 +62,7 @@ router.route("/create").post(async (req, res) => {
 
   console.log(buffer);
 
-  const filePath = `./uploads/post/${randomUUID()}.jpeg`
+  const filePath = `./uploads/post/${user_id}${Date.now()}.jpeg`
 
   // 이미지 파일 저장
   fs.writeFile(filePath, buffer, async (err) => {
