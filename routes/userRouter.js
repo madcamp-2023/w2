@@ -112,7 +112,7 @@ router.route("/").patch(async (req, res) => {
   fs.writeFile(filePath, buffer, async (err) => {
     console.log("write");
     if (err) {
-      console.log("엥")
+      console.log(err)
       return res.status(500).send("Error saving the image");
     }
     console.log("ㅜㅜ")
