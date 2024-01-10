@@ -47,12 +47,15 @@ const chatRoomCtrl = {
       }
     );
   },
-  updateLastChat: (room_id, last_chat, last_chat_time) => {
-    const query =
-      "UPDATE chat_room SET last_chat = ? AND last_chat_time=? WHERE room_id = ?";
+  updateLastChat: (room_id) => {
+    const query =`
+    UPDATE chat_room 
+    SET last_chat = (SELECT message FROM chat WHERE room_id = ${room_id} ORDER BY id DESC LIMIT 1),
+        last_chat_time = (SELECT created_time FROM chat WHERE room_id = ${room_id} ORDER BY id DESC LIMIT 1)
+    WHERE id = ${room_id};
+    `
     connection.query(
       query,
-      [last_chat, last_chat_time, room_id],
       (err, results) => {
         if (err) {
           return res.send(err);
@@ -62,7 +65,7 @@ const chatRoomCtrl = {
   },
   updateUnread: (room_id, user1_id, user2_id) => {
     // user1이 안 읽은 채팅의 개수는 user1_unread에 저장
-    const query1 = `
+    const query = `
     UPDATE chat_room
     SET user1_unread = (
       SELECT COUNT(*)

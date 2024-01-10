@@ -3,6 +3,19 @@ const app = express();
 const postCtrl = require("../controllers/postCtrl");
 const mapCtrl = require("../controllers/mapCtrl");
 const router = express.Router();
+const fs = require('fs');
+const multer = require('multer');
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads/');
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + '-' + Date.now() + '.' + file.mimetype.split('/')[1]);
+//   }
+// });
+
+// const upload = multer({ storage: storage });
 
 // JSON 요청을 처리하기 위한 미들웨어
 app.use(express.json());
@@ -39,6 +52,17 @@ router.route("/").delete(async (req, res) => {
 });
 
 router.route("/create").post(async (req, res) => {
+
+  // console.log(req.file);
+  // console.log(req.body);
+  
+  // if (req.file) {
+  //   // 파일이 성공적으로 업로드된 경우
+  //   res.json({ message: 'Image uploaded successfully', file: req.file });
+  // } else {
+  //   res.status(400).json({ message: 'Image upload failed' });}
+
+  // console.log(req.body)
   const image = req.body.image;
   const title = req.body.title; 
   const body = req.body.body;

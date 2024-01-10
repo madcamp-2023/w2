@@ -8,7 +8,7 @@ const chatCtrl = {
     const room_id = req.query.room_id;
     console.log(room_id);
     // console.log(req)
-    const query = "SELECT * FROM chat WHERE room_id = ? ORDER BY id DESC ";
+    const query = "SELECT * FROM chat WHERE room_id = ? ORDER BY id";
     connection.query(query, [room_id], (err, results) => {
       if (err) {
         return res.send(err);
