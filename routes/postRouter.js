@@ -3,8 +3,8 @@ const app = express();
 const postCtrl = require("../controllers/postCtrl");
 const mapCtrl = require("../controllers/mapCtrl");
 const router = express.Router();
-const fs = require('fs');
-const multer = require('multer');
+// const fs = require('fs');
+// const multer = require('multer');
 
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
