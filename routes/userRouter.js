@@ -110,20 +110,17 @@ router.route("/").patch(async (req, res) => {
 
   // 이미지 파일 저장
   fs.writeFile(filePath, buffer, async (err) => {
-    console.log("write");
     if (err) {
-      console.log(err)
       return res.status(500).send("Error saving the image");
     }
-    console.log("ㅜㅜ")
 
     // 파일을 Base64 문자열로 인코딩
     fs.readFile(filePath, { encoding: "base64" }, async (err, base64Image) => {
       console.log("read");
       if (err) {
+        console.log(err)
         return res.status(500).send("Error reading the image file");
       }
-      console.log(base64Image);
       // 데이터베이스에 Base64 문자열 저장
       const user = await userCtrl.editUserById(id, {
         name: newName,

@@ -76,6 +76,8 @@ router.route("/create").post(async (req, res) => {
         return res.status(500).send("Error reading the image file");
       }
 
+      console.log(base64Image);
+
       // 데이터베이스에 Base64 문자열 저장
       const post = await postCtrl.createPost({
         image: base64Image,
