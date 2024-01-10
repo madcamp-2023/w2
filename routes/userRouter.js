@@ -6,6 +6,7 @@ const router = express.Router();
 const REST_API_KEY = "406d35070a2f8f7ca0e51a1e894ffdc6";
 const REDIRECT_URI = "http://143.248.229.183:8081/auth/kakao/callback";
 const fs = require("fs");
+const { randomUUID } = require('crypto');
 
 // JSON 요청을 처리하기 위한 미들웨어
 app.use(express.json());
@@ -55,6 +56,25 @@ router.route("/login").post(async (req, res) => {
   res.send(user);
 });
 
+// 카카오 로그아웃 라우트
+router.route("/logout").post(async (req, res) => {
+  const accessToken = req.body.accessToken; // 프론트엔드에서 전달받은 access token
+
+  try {
+    // 카카오 로그아웃 API 호출
+    await axios.post('https://kapi.kakao.com/v1/user/logout', {}, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    });
+
+    res.status(200).send("Successfully logged out");
+  } catch (error) {
+    console.error("Error during logout:", error);
+    res.status(500).send("Error during logout");
+  }
+});
+
 router.route("/").patch(async (req, res) => {
   const id = req.body.id;
   const newName = req.body.name;
@@ -68,7 +88,7 @@ router.route("/").patch(async (req, res) => {
 
   console.log(buffer);
 
-  const filePath = "./image.jpeg"; // 저장할 파일 경로
+  const filePath = `./uploads/profile/${randomUUID()}.jpeg`; // 저장할 파일 경로
 
   // 이미지 파일 저장
   fs.writeFile(filePath, buffer, async (err) => {

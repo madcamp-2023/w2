@@ -3,19 +3,8 @@ const app = express();
 const postCtrl = require("../controllers/postCtrl");
 const mapCtrl = require("../controllers/mapCtrl");
 const router = express.Router();
-const fs = require('fs');
-// const multer = require('multer');
-
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'uploads/');
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.fieldname + '-' + Date.now() + '.' + file.mimetype.split('/')[1]);
-//   }
-// });
-
-// const upload = multer({ storage: storage });
+const fs = require("fs");
+const { randomUUID } = require('crypto');
 
 // JSON 요청을 처리하기 위한 미들웨어
 app.use(express.json());
@@ -26,23 +15,20 @@ router.route("/").get(postCtrl.showEveryPost);
 router.route("/").patch(async (req, res) => {
   const id = req.body.id;
   const newImage = req.body.image;
-  const newTitle = req.body.title; 
+  const newTitle = req.body.title;
   const newBody = req.body.body;
   const newLocation = req.body.location;
   const newPrice = req.body.price;
   const newDue = req.body.due;
 
-  const post = await postCtrl.editPostById(
-    id,
-    {
-      image: newImage,
-      title: newTitle,
-      body: newBody,
-      location: newLocation,
-      price: newPrice,
-      due: newDue,
-    }
-  );
+  const post = await postCtrl.editPostById(id, {
+    image: newImage,
+    title: newTitle,
+    body: newBody,
+    location: newLocation,
+    price: newPrice,
+    due: newDue,
+  });
   res.send(post);
 });
 
@@ -52,19 +38,8 @@ router.route("/").delete(async (req, res) => {
 });
 
 router.route("/create").post(async (req, res) => {
-
-  // console.log(req.file);
-  // console.log(req.body);
-  
-  // if (req.file) {
-  //   // 파일이 성공적으로 업로드된 경우
-  //   res.json({ message: 'Image uploaded successfully', file: req.file });
-  // } else {
-  //   res.status(400).json({ message: 'Image upload failed' });}
-
-  // console.log(req.body)
   const image = req.body.image;
-  const title = req.body.title; 
+  const title = req.body.title;
   const body = req.body.body;
   const location = req.body.location;
   const price = req.body.price;
@@ -76,28 +51,50 @@ router.route("/create").post(async (req, res) => {
 
   const unzip_location = zip_location.split(/[\(\)]/);
   const map_name = unzip_location[0];
-  const label = unzip_location[1].replace(/\d+/g, '');
+  const label = unzip_location[1].replace(/\d+/g, "");
   const latitudeLongitude = await mapCtrl.findLatitudeLongitude(map_name);
   const latitude = latitudeLongitude.latitude;
   const longitude = latitudeLongitude.longitude;
 
-  const post = await postCtrl.createPost(
-    {
-      image: image,
-      title: title,
-      body: body,
-      location: location,
-      price: price,
-      user_id: user_id,
-      user_name: user_name,
-      user_image: user_image,
-      due: due,
-      latitude: latitude,
-      longitude: longitude,
-      label:label
+  
+  // 'data:image/jpeg;base64,' 부분을 제거
+  const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
+  const buffer = Buffer.from(base64Data, "base64");
+
+  console.log(buffer);
+
+  const filePath = `./uploads/post/${randomUUID()}.jpeg`
+
+  // 이미지 파일 저장
+  fs.writeFile(filePath, buffer, async (err) => {
+    if (err) {
+      return res.status(500).send("Error saving the image");
     }
-  );
-  res.send(post);
+
+    // 파일을 Base64 문자열로 인코딩
+    fs.readFile(filePath, { encoding: "base64" }, async (err, base64Image) => {
+      if (err) {
+        return res.status(500).send("Error reading the image file");
+      }
+
+      // 데이터베이스에 Base64 문자열 저장
+      const post = await postCtrl.createPost({
+        image: base64Image,
+        title: title,
+        body: body,
+        location: location,
+        price: price,
+        user_id: user_id,
+        user_name: user_name,
+        user_image: user_image,
+        due: due,
+        latitude: latitude,
+        longitude: longitude,
+        label: label,
+      });
+      res.send(post);
+    });
+  });
 });
 
 module.exports = router;
