@@ -5,6 +5,7 @@ const userCtrl = require("../controllers/userCtrl");
 const router = express.Router();
 const REST_API_KEY = "406d35070a2f8f7ca0e51a1e894ffdc6";
 const REDIRECT_URI = "http://143.248.229.183:8081/auth/kakao/callback";
+const fs = require("fs");
 
 // JSON 요청을 처리하기 위한 미들웨어
 app.use(express.json());
@@ -41,7 +42,7 @@ router.route("/login").post(async (req, res) => {
       "Content-type": "application/json",
     },
   });
-  
+
   const userData = userRequest.data;
 
   // res.send(userData)
@@ -57,20 +58,34 @@ router.route("/login").post(async (req, res) => {
 router.route("/").patch(async (req, res) => {
   const id = req.body.id;
   const newName = req.body.name;
-  const newLocation = req.body.location; 
+  const newLocation = req.body.location;
   const newBio = req.body.bio;
   const newImage = req.body.image;
 
-  const user = await userCtrl.editUserById(
-    id,
-    {
+  // 'data:image/jpeg;base64,' 부분을 제거
+  const base64Data = newImage.replace(/^data:image\/jpeg;base64,/, "");
+  const buffer = Buffer.from(base64Data, "base64");
+
+  console.log(buffer);
+
+  const filePath = "./image.jpeg"; // 저장할 파일 경로
+
+  fs.writeFile(filePath, buffer, async (err) => {
+    if (err) {
+      return res.status(500).send("Error saving the image");
+    }
+  
+    const user = await userCtrl.editUserById(id, {
       name: newName,
       location: newLocation,
       bio: newBio,
       image: newImage,
-    }
-  );
-  res.send(user);
+    });
+    res.send(user);
+  });
+
+  
+  
 });
 
 module.exports = router;

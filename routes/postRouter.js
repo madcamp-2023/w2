@@ -3,7 +3,7 @@ const app = express();
 const postCtrl = require("../controllers/postCtrl");
 const mapCtrl = require("../controllers/mapCtrl");
 const router = express.Router();
-// const fs = require('fs');
+const fs = require('fs');
 // const multer = require('multer');
 
 // const storage = multer.diskStorage({
@@ -80,6 +80,20 @@ router.route("/create").post(async (req, res) => {
   const latitudeLongitude = await mapCtrl.findLatitudeLongitude(map_name);
   const latitude = latitudeLongitude.latitude;
   const longitude = latitudeLongitude.longitude;
+
+  // const buffer = Buffer.from(image, 'base64');
+  // console.log(buffer);
+
+  // const filePath = './image.jpg'; // 저장할 파일 경로
+  // fs.writeFile(filePath, buffer, (err) => {
+  //     if (err) {
+  //         res.status(500).send('Error saving the image');
+  //     } else {
+  //         // 이미지 저장 성공 후 DB에 경로 저장 등의 처리
+  //         res.status(200).send('Image saved successfully');
+  //     }
+  // });
+
 
   const post = await postCtrl.createPost(
     {
