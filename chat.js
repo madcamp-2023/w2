@@ -49,9 +49,9 @@ const setUpSocket = (io) => {
       chatRoomCtrl.updateUnread(input.room_id, input.user1_id, input.user2_id);
       socket.leave(input.room_id);
       console.log(socket.adapter.rooms);
-      for (const [id, socket] of io.of("/").sockets) {
-          socket.disconnect();
-      }
+      // for (const [id, socket] of io.of("/").sockets) {
+      //     socket.disconnect();
+      // }
       });
   });
 };
