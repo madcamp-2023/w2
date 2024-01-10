@@ -114,6 +114,7 @@ router.route("/").patch(async (req, res) => {
     if (err) {
       return res.status(500).send("Error saving the image");
     }
+    console.log("ㅜㅜ")
 
     // 파일을 Base64 문자열로 인코딩
     fs.readFile(filePath, { encoding: "base64" }, async (err, base64Image) => {
