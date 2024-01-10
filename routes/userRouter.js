@@ -70,22 +70,28 @@ router.route("/").patch(async (req, res) => {
 
   const filePath = "./image.jpeg"; // 저장할 파일 경로
 
+  // 이미지 파일 저장
   fs.writeFile(filePath, buffer, async (err) => {
     if (err) {
       return res.status(500).send("Error saving the image");
     }
-  
-    const user = await userCtrl.editUserById(id, {
-      name: newName,
-      location: newLocation,
-      bio: newBio,
-      image: newImage,
-    });
-    res.send(user);
-  });
 
-  
-  
+    // 파일을 Base64 문자열로 인코딩
+    fs.readFile(filePath, { encoding: "base64" }, async (err, base64Image) => {
+      if (err) {
+        return res.status(500).send("Error reading the image file");
+      }
+
+      // 데이터베이스에 Base64 문자열 저장
+      const user = await userCtrl.editUserById(id, {
+        name: newName,
+        location: newLocation,
+        bio: newBio,
+        image: base64Image, // Base64 인코딩된 이미지 문자열
+      });
+      res.send(user);
+    });
+  });
 });
 
 module.exports = router;
